@@ -1,0 +1,25 @@
+﻿# Dependencias
+node_modules/
+**/node_modules/
+
+# Variables de entorno y secretos
+.env
+.env.*
+!.env.example
+
+# Archivos generados
+dist/
+build/
+coverage/
+
+# Evidencias locales de Cypress
+cypress/videos/
+cypress/screenshots/
+
+# Archivos temporales
+.DS_Store
+Thumbs.db
+*.log
+
+**/cypress/videos/
+**/cypress/screenshots/

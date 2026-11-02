@@ -1,38 +1,45 @@
+
 const http = require('http');
 const app = require('./server');
 const cors = require('cors');
+
 const port = process.env.PORT || 3000;
-const host = process.env.HOST || '10.1.206.218';
+const host = '0.0.0.0';
 
 // Configuración CORS
 app.use(cors({
   origin: [
-    'http://10.1.206.218',   // IP de tu frontend
-    'http://localhost:5173',   // Desarrollo local
-    'http://localhost:3000',   
-    'http://127.0.0.1:5173',
-    'http://127.0.0.1:3000'
+     'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  'http://localhost:5174',
+  'http://127.0.0.1:5174',
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'X-Requested-With'
+  ]
 }));
 
-// Manejar preflight CORS
+// Manejar solicitudes preflight
 app.options('*', cors());
+
 app.set('port', port);
 
 const server = http.createServer(app);
 
 server.listen(port, host, () => {
-  console.log(`Servidor corriendo en http://${host}:${port}`);
+  console.log(`Servidor corriendo en http://localhost:${port}`);
   console.log(`Accesible en la red local en http://${getLocalIp()}:${port}`);
 });
 
-// Función auxiliar para obtener la IP local
+// Obtener IP local
 function getLocalIp() {
   const { networkInterfaces } = require('os');
   const nets = networkInterfaces();
+
   for (const name of Object.keys(nets)) {
     for (const net of nets[name]) {
       if (net.family === 'IPv4' && !net.internal) {
@@ -40,5 +47,6 @@ function getLocalIp() {
       }
     }
   }
+
   return 'localhost';
 }

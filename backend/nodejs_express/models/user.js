@@ -1,151 +1,141 @@
+
 const db = require('../config/config');
 const bcrypt = require('bcryptjs');
+
 const User = {};
 
+// LISTAR USUARIOS
 User.findAll = (result) => {
-  const sql = `SELECT id, email, name, lastname, phone, image, role, created_at, updated_at FROM users`;
+  const sql = `
+    SELECT id, email, name, lastname, phone, image, role,
+           created_at, updated_at
+    FROM users
+  `;
+
   db.query(sql, (err, users) => {
-    if (err) {
-      console.log('Error al listar usuarios: ', err);
-      result(err, null);
-    } else {
-      console.log('Usuarios encontrados: ', users.length);
-      result(null, users);
-    }
+    if (err) return result(err, null);
+    result(null, users);
   });
 };
 
+// BUSCAR USUARIO POR ID
 User.findById = (id, result) => {
-  const sql = `SELECT id, email, name, lastname, image, phone, role, password FROM users WHERE id = ?`;
-  db.query(sql, [id], (err, user) => {
-    if (err) {
-      console.log('Error al consultar: ', err);
-      result(err, null);
-    }
-    else {
-      console.log('Usuario consultado: ',  user[0] );
-      result(null, user[0]);
-    }
+  const sql = `
+    SELECT id, email, name, lastname, image, phone, role, password
+    FROM users WHERE id = ?
+  `;
+
+  db.query(sql, [id], (err, users) => {
+    if (err) return result(err, null);
+    result(null, users[0] || null);
   });
 };
 
+// BUSCAR USUARIO POR CORREO
 User.findByEmail = (email, result) => {
-  const sql = `SELECT id, email, name, lastname, image, phone, role, password FROM users WHERE email = ?`;
-  db.query(sql, [email], (err, user) => {
-    if (err) {
-      console.log('Error al consultar: ', err);
-      result(err, null);
-    }
-    else {
-      console.log('Usuario consultado: ',  user[0] );
-      result(null, user[0]);
-    }
+  const sql = `
+    SELECT id, email, name, lastname, image, phone, role, password
+    FROM users WHERE email = ?
+  `;
+
+  db.query(sql, [email], (err, users) => {
+    if (err) return result(err, null);
+    result(null, users[0] || null);
   });
 };
 
+// CREAR USUARIO
 User.create = async (user, result) => {
-  const hash = await bcrypt.hash(user.password, 10);  
-  const validRoles = ['admin', 'seller', 'customer', 'user'];
-  const role = validRoles.includes(user.role) ? user.role : 'user';
-  const sql = `INSERT INTO users(
-                name, 
-                lastname,
-                email, 
-                password,
-                phone,
-                image,
-                role,
-                created_at,
-                updated_at
-            ) VALUES (?,?,?,?,?,?,?,?,?)`;
-  db.query(sql,
-    [
+  try {
+    const hash = await bcrypt.hash(user.password, 10);
+    const validRoles = ['admin', 'seller', 'customer', 'user'];
+    const role = validRoles.includes(user.role) ? user.role : 'user';
+
+    const sql = `
+      INSERT INTO users (
+        name, lastname, email, password, phone, image,
+        role, created_at, updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    db.query(sql, [
       user.name,
       user.lastname,
       user.email,
       hash,
-      user.phone,
-      user.image,
+      user.phone || null,
+      user.image || null,
       role,
       new Date(),
       new Date()
-    ], (err, res) => {
-      if (err) {
-        console.log('Error al crear al Usuario: ', err);
-        result(err, null);
-      } else {
-        console.log('Usuario creado: ', {id: res.insertId, ...user});
-        result(null, {id: res.insertId, ...user});
-      }
-    }
-  );
+    ], (err, response) => {
+      if (err) return result(err, null);
+
+      result(null, {
+        id: response.insertId,
+        ...user,
+        role
+      });
+    });
+  } catch (err) {
+    result(err, null);
+  }
 };
 
+// ACTUALIZAR USUARIO
 User.update = async (user, result) => {
-  let fields = [];
-  let values = [];
+  try {
+    const fields = [];
+    const values = [];
 
-  if (user.password) {
-    const hash = await bcrypt.hash(user.password, 10);
-    fields.push("password = ?");
-    values.push(hash);
-  }
-
-  if (user.email) {
-    fields.push("email = ?");
-    values.push(user.email);
-  }
-  if (user.name) {
-    fields.push("name = ?");
-    values.push(user.name);
-  }
-  if (user.lastname) {
-    fields.push("lastname = ?");
-    values.push(user.lastname);
-  }
-  if (user.phone) {
-    fields.push("phone = ?");
-    values.push(user.phone);
-  }
-  if (user.image) {
-    fields.push("image = ?");
-    values.push(user.image);
-  }
-  if (user.role) {
-    fields.push("role = ?");
-    values.push(user.role);
-  }
-
-  fields.push("updated_at = ?");
-  values.push(new Date());
-
-  const sql = `UPDATE users SET ${fields.join(", ")} WHERE id = ?`;
-  values.push(user.id);
-
-  console.log('📝 SQL Update:', sql);
-  console.log('📝 Values:', values);
-
-  db.query(sql, values, (err, res) => {
-    if (err) {
-      console.log('Error al actualizar usuario: ', err);
-      result(err, null);
-    } else {
-      console.log('Usuario actualizado: ', { id: user.id, ...user });
-      result(null, { id: user.id, ...user });
+    if (user.password) {
+      const hash = await bcrypt.hash(user.password, 10);
+      fields.push('password = ?');
+      values.push(hash);
     }
-  });
+
+    const allowedFields = [
+      'email',
+      'name',
+      'lastname',
+      'phone',
+      'image',
+      'role'
+    ];
+
+    allowedFields.forEach((field) => {
+      if (user[field] !== undefined) {
+        fields.push(`${field} = ?`);
+        values.push(user[field]);
+      }
+    });
+
+    if (fields.length === 0) {
+      return result(new Error('No hay datos para actualizar'), null);
+    }
+
+    fields.push('updated_at = ?');
+    values.push(new Date());
+    values.push(user.id);
+
+    const sql = `UPDATE users SET ${fields.join(', ')} WHERE id = ?`;
+
+    db.query(sql, values, (err, response) => {
+      if (err) return result(err, null);
+      result(null, response);
+    });
+  } catch (err) {
+    result(err, null);
+  }
 };
 
+// ELIMINAR USUARIO
 User.delete = (id, result) => {
-  const sql = `DELETE FROM users WHERE id = ?`;
-  db.query(sql, [id], (err, res) => {
-    if (err) {
-      console.log('Error al eliminar usuario: ', err);
-      result(err, null);
-    } else {
-      console.log('Usuario eliminado con id: ', id);
-      result(null, res);
-    }
+  const sql = 'DELETE FROM users WHERE id = ?';
+
+  db.query(sql, [id], (err, response) => {
+    if (err) return result(err, null);
+    result(null, response);
   });
 };
 
