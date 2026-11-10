@@ -9,7 +9,10 @@
     "test:watch": "cross-env NODE_ENV=test jest --watch",
     "test:coverage": "cross-env NODE_ENV=test jest --coverage",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "cy:open": "cypress open",
+    "cy:run:system": "cypress run --spec \"cypress/e2e/system/**/*.cy.js\"",
+    "cy:run:acceptance": "cypress run --spec \"cypress/e2e/acceptance/**/*.cy.js\""
   },
   "dependencies": {
     "jwt-decode": "^4.0.0",
@@ -27,6 +30,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
     "babel-jest": "^30.5.2",
+    "cross-env": "^10.1.0",
     "cypress": "^16.2.1",
     "eslint": "^9.39.4",
     "eslint-plugin-react-hooks": "^7.0.1",
@@ -35,6 +39,10 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^30.5.2",
     "jest-environment-jsdom": "^30.5.2",
+    "jest-html-reporters": "^3.1.7",
+    "mochawesome": "^8.1.1",
+    "mochawesome-merge": "^5.1.1",
+    "mochawesome-report-generator": "^6.3.2",
     "vite": "^8.0.4"
   }
 }

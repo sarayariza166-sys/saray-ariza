@@ -16,13 +16,15 @@ describe("Pruebas unitarias del middleware de autenticación", () => {
 
     verifyToken(req, res, next);
 
-    expect(res.status).toHaveBeenCalledWith(403);
+    expect(res.status).toHaveBeenCalledWith(401);
+
     expect(res.json).toHaveBeenCalledWith(
       expect.objectContaining({
         success: false,
-        message: "No se proporcionó un token",
+        message: "No se proporcionó un token de autenticación",
       })
     );
+
     expect(next).not.toHaveBeenCalled();
   });
 });

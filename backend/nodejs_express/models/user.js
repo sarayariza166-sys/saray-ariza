@@ -21,8 +21,9 @@ User.findAll = (result) => {
 // BUSCAR USUARIO POR ID
 User.findById = (id, result) => {
   const sql = `
-    SELECT id, email, name, lastname, image, phone, role, password
-    FROM users WHERE id = ?
+    SELECT id, email, name, lastname, image, phone, role
+    FROM users
+    WHERE id = ?
   `;
 
   db.query(sql, [id], (err, users) => {
@@ -35,7 +36,8 @@ User.findById = (id, result) => {
 User.findByEmail = (email, result) => {
   const sql = `
     SELECT id, email, name, lastname, image, phone, role, password
-    FROM users WHERE email = ?
+    FROM users
+    WHERE email = ?
   `;
 
   db.query(sql, [email], (err, users) => {
@@ -48,8 +50,10 @@ User.findByEmail = (email, result) => {
 User.create = async (user, result) => {
   try {
     const hash = await bcrypt.hash(user.password, 10);
-    const validRoles = ['admin', 'seller', 'customer', 'user'];
-    const role = validRoles.includes(user.role) ? user.role : 'user';
+
+    // El registro público debe crear clientes.
+    // No confiar en el rol enviado por el formulario.
+    const role = 'customer';
 
     const sql = `
       INSERT INTO users (
@@ -73,10 +77,15 @@ User.create = async (user, result) => {
 
       result(null, {
         id: response.insertId,
-        ...user,
+        name: user.name,
+        lastname: user.lastname,
+        email: user.email,
+        phone: user.phone || null,
+        image: user.image || null,
         role
       });
     });
+
   } catch (err) {
     result(err, null);
   }
@@ -94,13 +103,14 @@ User.update = async (user, result) => {
       values.push(hash);
     }
 
+    // Campos que pueden actualizarse.
+    // El rol no se modifica desde esta función.
     const allowedFields = [
       'email',
       'name',
       'lastname',
       'phone',
-      'image',
-      'role'
+      'image'
     ];
 
     allowedFields.forEach((field) => {
@@ -111,19 +121,27 @@ User.update = async (user, result) => {
     });
 
     if (fields.length === 0) {
-      return result(new Error('No hay datos para actualizar'), null);
+      return result(
+        new Error('No hay datos permitidos para actualizar'),
+        null
+      );
     }
 
     fields.push('updated_at = ?');
     values.push(new Date());
     values.push(user.id);
 
-    const sql = `UPDATE users SET ${fields.join(', ')} WHERE id = ?`;
+    const sql = `
+      UPDATE users
+      SET ${fields.join(', ')}
+      WHERE id = ?
+    `;
 
     db.query(sql, values, (err, response) => {
       if (err) return result(err, null);
       result(null, response);
     });
+
   } catch (err) {
     result(err, null);
   }

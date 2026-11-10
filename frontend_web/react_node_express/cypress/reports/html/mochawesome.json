@@ -1,0 +1,181 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 5,
+    "passes": 5,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-11-10T17:17:13.574Z",
+    "end": "2026-11-10T17:17:19.016Z",
+    "duration": 5442,
+    "testsRegistered": 5,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "104a75be-d481-4f9d-bfe6-38281ee448ec",
+      "title": "",
+      "fullFile": "cypress\\e2e\\acceptance\\register.cy.js",
+      "file": "cypress\\e2e\\acceptance\\register.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "dfbebae0-c8f7-47d7-ad7d-47ff95aa86f4",
+          "title": "Pruebas de aceptación - Registro de usuarios",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "ACC-01: Debe mostrar el formulario de registro",
+              "fullTitle": "Pruebas de aceptación - Registro de usuarios ACC-01: Debe mostrar el formulario de registro",
+              "timedOut": null,
+              "duration": 1301,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.contains('h1', 'Crear Cuenta').should('be.visible');\ncy.get('#name').should('be.visible');\ncy.get('#lastname').should('be.visible');\ncy.get('#email').should('be.visible');\ncy.get('#phone').should('be.visible');\ncy.get('#password').should('be.visible');\ncy.get('#confirmPassword').should('be.visible');\ncy.get('#role').should('be.visible');",
+              "err": {},
+              "uuid": "5f23b3f5-8d54-4f4a-bc45-7fbdb45283c6",
+              "parentUUID": "dfbebae0-c8f7-47d7-ad7d-47ff95aa86f4",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "ACC-02: Debe mostrar un error cuando las contraseñas no coinciden",
+              "fullTitle": "Pruebas de aceptación - Registro de usuarios ACC-02: Debe mostrar un error cuando las contraseñas no coinciden",
+              "timedOut": null,
+              "duration": 1585,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#name').type('Usuario Prueba');\ncy.get('#lastname').type('Apellido Prueba');\ncy.get('#email').type('prueba123@example.com');\ncy.get('#password').type('clave123');\ncy.get('#confirmPassword').type('clave456');\ncy.get('.register-button').click();\ncy.contains('Las contraseñas no coinciden').should('be.visible');",
+              "err": {},
+              "uuid": "358aae23-8eb1-4a46-85e0-c5fd476d652f",
+              "parentUUID": "dfbebae0-c8f7-47d7-ad7d-47ff95aa86f4",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "ACC-03: Debe validar la longitud mínima de la contraseña",
+              "fullTitle": "Pruebas de aceptación - Registro de usuarios ACC-03: Debe validar la longitud mínima de la contraseña",
+              "timedOut": null,
+              "duration": 1453,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#name').type('Usuario Prueba');\ncy.get('#lastname').type('Apellido Prueba');\ncy.get('#email').type('prueba456@example.com');\ncy.get('#password').type('1234');\ncy.get('#confirmPassword').type('1234');\ncy.get('.register-button').click();\ncy.contains('La contraseña debe tener al menos 6 caracteres').should('be.visible');",
+              "err": {},
+              "uuid": "7c83ede5-a741-48a5-931d-6b3c5e4ca0fd",
+              "parentUUID": "dfbebae0-c8f7-47d7-ad7d-47ff95aa86f4",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "ACC-04: Debe permitir seleccionar un rol",
+              "fullTitle": "Pruebas de aceptación - Registro de usuarios ACC-04: Debe permitir seleccionar un rol",
+              "timedOut": null,
+              "duration": 530,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#role').select('customer');\ncy.get('#role').should('have.value', 'customer');",
+              "err": {},
+              "uuid": "207f5567-da5b-4ed5-8c53-78afa21728f7",
+              "parentUUID": "dfbebae0-c8f7-47d7-ad7d-47ff95aa86f4",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "ACC-05: Debe permitir navegar al inicio de sesión",
+              "fullTitle": "Pruebas de aceptación - Registro de usuarios ACC-05: Debe permitir navegar al inicio de sesión",
+              "timedOut": null,
+              "duration": 431,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('.register-footer a').click();\ncy.url().should('include', '/login');",
+              "err": {},
+              "uuid": "1340c398-3f47-4dca-90fe-5f34520a12df",
+              "parentUUID": "dfbebae0-c8f7-47d7-ad7d-47ff95aa86f4",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "5f23b3f5-8d54-4f4a-bc45-7fbdb45283c6",
+            "358aae23-8eb1-4a46-85e0-c5fd476d652f",
+            "7c83ede5-a741-48a5-931d-6b3c5e4ca0fd",
+            "207f5567-da5b-4ed5-8c53-78afa21728f7",
+            "1340c398-3f47-4dca-90fe-5f34520a12df"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 5300,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "8.1.1"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/html",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.3.2"
+    }
+  }
+}

@@ -1,0 +1,261 @@
+{
+  "stats": {
+    "suites": 5,
+    "tests": 5,
+    "passes": 5,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-11-10T17:17:22.259Z",
+    "end": "2026-11-10T17:17:29.866Z",
+    "duration": 7607,
+    "testsRegistered": 5,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "4a749d5d-e9d4-476d-b5df-027668ec1ed7",
+      "title": "",
+      "fullFile": "cypress\\e2e\\acceptance\\users.acceptance.cy.js",
+      "file": "cypress\\e2e\\acceptance\\users.acceptance.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "fcf702c8-c158-4e49-9997-5b2546640e84",
+          "title": "ST-01 - Acceso al módulo de usuarios",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Debe permitir acceder al módulo de usuarios",
+              "fullTitle": "ST-01 - Acceso al módulo de usuarios Debe permitir acceder al módulo de usuarios",
+              "timedOut": null,
+              "duration": 1965,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "iniciarSesion('admin');\ncy.contains('button', 'Usuarios').click();\ncy.contains('h2', 'Gestión de Usuarios').should('be.visible');",
+              "err": {},
+              "uuid": "cbe4de20-8960-4364-b451-402e6994411c",
+              "parentUUID": "fcf702c8-c158-4e49-9997-5b2546640e84",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "cbe4de20-8960-4364-b451-402e6994411c"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 1965,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "441870ad-3376-4e34-a9fa-ce62ae6332de",
+          "title": "ST-02 - Listado de usuarios",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Debe mostrar los usuarios registrados",
+              "fullTitle": "ST-02 - Listado de usuarios Debe mostrar los usuarios registrados",
+              "timedOut": null,
+              "duration": 1067,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "iniciarSesion('admin');\ncy.contains('button', 'Usuarios').click();\ncy.wait('@obtenerUsuarios');\ncy.contains('oliver@stone.com').should('be.visible');\ncy.contains('maria@example.com').should('be.visible');",
+              "err": {},
+              "uuid": "f4f4ca46-e3b7-4ba5-90e8-853d2821192c",
+              "parentUUID": "441870ad-3376-4e34-a9fa-ce62ae6332de",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "f4f4ca46-e3b7-4ba5-90e8-853d2821192c"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 1067,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "ff938da1-cde3-476c-ad5d-d39e8b689976",
+          "title": "ST-03 - Crear usuario",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Debe abrir el formulario de nuevo usuario",
+              "fullTitle": "ST-03 - Crear usuario Debe abrir el formulario de nuevo usuario",
+              "timedOut": null,
+              "duration": 1021,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "iniciarSesion('admin');\ncy.contains('button', 'Usuarios').click();\ncy.contains('button', 'Nuevo Usuario').click();\ncy.get('.user-form').should('be.visible');\ncy.contains('h3', 'Nuevo Usuario').should('be.visible');",
+              "err": {},
+              "uuid": "64ff8dbc-ce59-4731-9867-10a54ce305a3",
+              "parentUUID": "ff938da1-cde3-476c-ad5d-d39e8b689976",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "64ff8dbc-ce59-4731-9867-10a54ce305a3"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 1021,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "ac266785-eb6b-4ad5-a852-064286b64b55",
+          "title": "ST-04 - Validación de usuario",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Debe mostrar un error si las contraseñas no coinciden",
+              "fullTitle": "ST-04 - Validación de usuario Debe mostrar un error si las contraseñas no coinciden",
+              "timedOut": null,
+              "duration": 2309,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "iniciarSesion('admin');\ncy.contains('button', 'Usuarios').click();\ncy.contains('button', 'Nuevo Usuario').click();\ncy.get('.user-form').should('be.visible');\ncy.get('input[name=\"name\"]').type('Carlos');\ncy.get('input[name=\"lastname\"]').type('Prueba');\ncy.get('input[name=\"email\"]').type('carlos@example.com');\ncy.get('input[name=\"password\"]').type('Clave12345');\ncy.get('input[name=\"confirmPassword\"]').type('OtraClave123');\ncy.get('.user-form button[type=\"submit\"]').click();\ncy.contains('Las contraseñas no coinciden').should('be.visible');",
+              "err": {},
+              "uuid": "6cea7f0e-89e3-45b2-8d23-92f5b02e88a6",
+              "parentUUID": "ac266785-eb6b-4ad5-a852-064286b64b55",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "6cea7f0e-89e3-45b2-8d23-92f5b02e88a6"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 2309,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "e1099059-5710-42fd-8c75-0963b942ebdc",
+          "title": "ST-05 - Permisos de usuarios",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Un vendedor no debe poder eliminar usuarios",
+              "fullTitle": "ST-05 - Permisos de usuarios Un vendedor no debe poder eliminar usuarios",
+              "timedOut": null,
+              "duration": 1022,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "iniciarSesion('seller');\ncy.contains('button', 'Usuarios').click();\ncy.wait('@obtenerUsuarios');\ncy.get('.users-table tbody tr').should('have.length', 2);\ncy.get('.btn-delete').should('have.length', 2).and('be.disabled');",
+              "err": {},
+              "uuid": "839d5866-873c-4f15-a3c4-df0d96e11a77",
+              "parentUUID": "e1099059-5710-42fd-8c75-0963b942ebdc",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "839d5866-873c-4f15-a3c4-df0d96e11a77"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 1022,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "8.1.1"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/html",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.3.2"
+    }
+  }
+}

@@ -14,7 +14,7 @@ class AuthController {
       }
       
       // Validar formato de email
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       if (!emailRegex.test(credentials.email)) {
         onError('Por favor ingrese un email válido')
         return
@@ -47,7 +47,7 @@ class AuthController {
         return
       }
       
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       if (!emailRegex.test(userData.email)) {
         onError('Por favor ingrese un email válido')
         return

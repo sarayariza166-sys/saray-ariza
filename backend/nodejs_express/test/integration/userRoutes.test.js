@@ -63,7 +63,7 @@ describe("Pruebas de integración de las rutas de usuarios", () => {
     const response = await request(app)
       .get("/api/users");
 
-    expect(response.status).toBe(403);
+    expect(response.status).toBe(401);
     expect(response.body.success).toBe(false);
     expect(User.findAll).not.toHaveBeenCalled();
   });

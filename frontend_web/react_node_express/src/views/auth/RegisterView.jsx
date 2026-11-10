@@ -13,7 +13,7 @@ const RegisterView = () => {
     password: '',
     confirmPassword: '',
     phone: '',           // ← NUEVO: Teléfono
-    role: 'user'         // ← NUEVO: Rol (por defecto 'user')
+    role: 'customer'         // ← NUEVO: Rol (por defecto 'user')
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')

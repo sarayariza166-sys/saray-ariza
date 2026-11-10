@@ -1,3 +1,4 @@
+
 module.exports = {
   testEnvironment: 'node',
 
@@ -9,5 +10,17 @@ module.exports = {
   forceExit: true,
   clearMocks: true,
 
-  reporters: ['default'],
+  reporters: [
+    'default',
+    [
+      'jest-html-reporters',
+      {
+        publicPath: './reports/backend',
+        filename: 'reporte-backend.html',
+        expand: true,
+        pageTitle: 'Reporte de Pruebas - Backend Node.js',
+        hideIcon: false,
+      },
+    ],
+  ],
 };

@@ -1,7 +1,6 @@
 // src/hooks/useUsers.js
 import { useState, useEffect } from 'react'
 import UserController from '../controllers/UserController'
-
 const useUsers = () => {
   const [users, setUsers] = useState([])
   const [selectedUser, setSelectedUser] = useState(null)
