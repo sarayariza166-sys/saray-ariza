@@ -1,19 +1,21 @@
 
 const http = require('http');
-const app = require('./server');
 const cors = require('cors');
+const app = require('./server');
 
-const port = process.env.PORT || 3000;
-const host = '0.0.0.0';
+const PORT = process.env.PORT || 3000;
 
-// Configuración CORS
-app.use(cors({
-  origin: [
-     'http://localhost:5173',
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
   'http://127.0.0.1:5173',
-  'http://localhost:5174',
-  'http://127.0.0.1:5174',
-  ],
+  'http://127.0.0.1:3000',
+
+  // Agregaremos aquí la URL del frontend en Azure
+];
+
+app.use(cors({
+  origin: allowedOrigins,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: [
@@ -23,30 +25,11 @@ app.use(cors({
   ]
 }));
 
-// Manejar solicitudes preflight
-app.options('*', cors());
-
-app.set('port', port);
+app.set('port', PORT);
 
 const server = http.createServer(app);
 
-server.listen(port, host, () => {
-  console.log(`Servidor corriendo en http://localhost:${port}`);
-  console.log(`Accesible en la red local en http://${getLocalIp()}:${port}`);
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`Servidor ejecutándose en puerto ${PORT}`);
+  console.log(`Entorno: ${process.env.NODE_ENV || 'development'}`);
 });
-
-// Obtener IP local
-function getLocalIp() {
-  const { networkInterfaces } = require('os');
-  const nets = networkInterfaces();
-
-  for (const name of Object.keys(nets)) {
-    for (const net of nets[name]) {
-      if (net.family === 'IPv4' && !net.internal) {
-        return net.address;
-      }
-    }
-  }
-
-  return 'localhost';
-}

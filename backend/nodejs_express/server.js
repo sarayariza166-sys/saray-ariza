@@ -1,48 +1,51 @@
 
-// server.js
-
-// Cargar variables de entorno según el ambiente
-const dotenv = require('dotenv');
-
-if (process.env.NODE_ENV === 'test') {
-  dotenv.config({ path: '.env.test' });
-} else {
-  dotenv.config();
-}
-
 const express = require('express');
 const logger = require('morgan');
-const cors = require('cors');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./config/swagger');
 const usersRoutes = require('./routes/userRoutes');
 
 const app = express();
 
-// Middlewares globales
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Configuración CORS
-app.use(cors({
-  origin: [
-     'http://localhost:5173',
-  'http://127.0.0.1:5173',
-  'http://localhost:5174',
-  'http://127.0.0.1:5174',
-  ],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: [
-    'Content-Type',
-    'Authorization',
-    'X-Requested-With'
-  ]
-}));
+const swaggerOptions = {
+  swaggerOptions: {
+    docExpansion: 'list',
+    defaultModelsExpandDepth: -1,
+    defaultModelExpandDepth: 1,
+    displayRequestDuration: true,
+    filter: false,
+    layout: 'BaseLayout',
+    showExtensions: true,
+    showCommonExtensions: true,
+    deepLinking: true,
+    persistAuthorization: true,
+    tagsSorter: 'alpha',
+    operationsSorter: function(a, b) {
+      const methodOrder = {
+        post: 1,
+        get: 2,
+        put: 3,
+        delete: 4
+      };
 
-// Rutas
+      return methodOrder[a.get('method')] -
+             methodOrder[b.get('method')];
+    }
+  }
+};
+
+app.use(
+  '/api-docs',
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec, swaggerOptions)
+);
+
 app.use('/api/users', usersRoutes);
 
-// Endpoints de prueba
 app.get('/', (req, res) => {
   res.send('Ruta raíz del Backend');
 });
@@ -53,12 +56,12 @@ app.get('/test', (req, res) => {
 
 // Manejo de errores
 app.use((err, req, res, next) => {
-  console.error('Error del servidor:', err);
+  console.error(err);
+
   res.status(err.status || 500).json({
-    mensaje: 'Error interno del servidor',
-    error: process.env.NODE_ENV === 'test' ? err.message : undefined
+    mensaje: 'Error interno del servidor'
   });
 });
 
-// Exportar aplicación
+// Exportar Express sin iniciar el servidor
 module.exports = app;
